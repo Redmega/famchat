@@ -28,8 +28,9 @@
     "typescript": "^3.0.1"
   },
   "scripts": {
-    "build": "parcel build src/index.html --out-dir public/ --public-url ./",
+    "build": "parcel build src/index.html --out-dir public/",
     "dev": "dotenv -e .env.development node server",
-    "start": "export NODE_ENV=production && yarn build && node server"
+    "start": "dotenv -e .env.production yarn start:prod",
+    "start:prod": "yarn build && node server"
   }
 }

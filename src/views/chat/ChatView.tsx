@@ -28,7 +28,7 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
     socket: (typeof io.Socket)
 
     componentWillMount() {
-        this.socket = io(process.env.HOSTNAME + process.env.PORT, { query: { name: this.props.name } })
+        this.socket = io(`${process.env.HOSTNAME}:${process.env.PORT}`, { query: { name: this.props.name } })
         this.socket.on('message', (message: Message) => {
             this.setState({ messages: this.state.messages.concat(message) })
         })
