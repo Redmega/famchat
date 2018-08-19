@@ -30,7 +30,7 @@
   "scripts": {
     "build": "parcel build src/index.html --out-dir public/",
     "dev": "dotenv -e .env.development node server",
-    "start": "dotenv -e .env.production yarn start:prod",
-    "start:prod": "yarn build && node server"
+    "start": "dotenv -e .env.production npm run start:prod",
+    "start:prod": "npm run build && node server"
   }
 }

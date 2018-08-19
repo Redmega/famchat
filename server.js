@@ -15,6 +15,7 @@ if (DEV) {
     app.use(bundler.middleware())
 } else {
     app.use(express.static('public'))
+    app.get('/ping', (req, res) => res.send('pong'))
 }
 
 const io = require('socket.io')(server)

@@ -28,7 +28,7 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
     socket: (typeof io.Socket)
 
     componentWillMount() {
-        this.socket = io(`${process.env.HOSTNAME}:${process.env.PORT}`, { query: { name: this.props.name } })
+        this.socket = io(process.env.SOCKET_URI, { query: { name: this.props.name } })
         this.socket.on('message', (message: Message) => {
             this.setState({ messages: this.state.messages.concat(message) })
         })
@@ -50,13 +50,14 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
         return (
             <ChatWrapper>
                 <ul id="messages">
-                {this.state.messages.map((message: Message) => 
-                    <li key={message.id}><b>{message.from}: </b> {message.body}</li>
-                )}
+                    {this.state.messages.map((message: Message) =>
+                        <li key={message.id}><b>{message.from}: </b> {message.body}</li>
+                    )}
                 </ul>
 
                 <form onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleMessageChange} value={this.state.message} autoComplete="off" /><button>Send</button>
+                    <input autoFocus onChange={this.handleMessageChange} value={this.state.message} autoComplete="off" />
+                    <button>Send</button>
                 </form>
             </ChatWrapper>
         )
