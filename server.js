@@ -32,7 +32,7 @@ io.on('connection', socket => {
         io.emit('update_room', { members: store })
     }
 
-    socket.broadcast.send({ body: `${name} has joined`, from: 'Server', id: uuid() })
+    socket.broadcast.send({ body: `${name} has joined`, from: 'Server', id: uuid(), meta: true })
 
     socket.on('message', body => {
         io.send({ body, from: name, id: uuid() })
@@ -42,7 +42,7 @@ io.on('connection', socket => {
         console.info(name + ' disconnected')
         delete store[socket.id]
         io.emit('update_room', { members: store })
-        socket.broadcast.send({ body: `${name} has left`, from: 'Server', id: uuid() })
+        socket.broadcast.send({ body: `${name} has left`, from: 'Server', id: uuid(), meta: true })
     });
 })
 

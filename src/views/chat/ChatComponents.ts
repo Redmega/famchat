@@ -33,6 +33,10 @@ export const ChatWrapper = styled('div')`
         padding: 5px 10px;
     }
 
+    #messages li[data-meta] {
+        font-style: italic;
+    }
+
     #messages li:nth-child(odd) {
         background: #eee;
     }

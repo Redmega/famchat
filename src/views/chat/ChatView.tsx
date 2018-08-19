@@ -59,7 +59,9 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
                 <hr />
                 <ul id="messages">
                     {this.state.messages.map((message: Message) =>
-                        <li key={message.id}><b>{message.from}: </b> {message.body}</li>
+                        <li key={message.id} data-meta={message.meta}>
+                            {!message.meta && <b>{message.from}: </b>} {message.body}
+                        </li>
                     )}
                 </ul>
 
