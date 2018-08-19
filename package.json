@@ -1,0 +1,35 @@
+{
+  "name": "famchat",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Angel Piscola <angelpiscola@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "emotion": "^9.2.6",
+    "express": "^4.16.3",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-emotion": "^9.2.6",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.11",
+    "@types/react-dom": "^16.0.7",
+    "@types/socket.io-client": "^1.4.32",
+    "babel-plugin-emotion": "^9.2.6",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "dotenv-cli": "^1.4.0",
+    "parcel-bundler": "^1.9.7",
+    "typescript": "^3.0.1"
+  },
+  "scripts": {
+    "build": "parcel build src/index.html --out-dir public/ --public-url ./",
+    "dev": "dotenv -e .env.development node server",
+    "start": "export NODE_ENV=production && yarn build && node server"
+  }
+}
