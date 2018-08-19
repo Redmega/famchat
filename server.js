@@ -10,6 +10,8 @@ const bundler = new Bundler(path.resolve(__dirname, 'src/index.html'))
 
 const DEV = process.env.NODE_ENV === 'development'
 
+// TEMP holding for chat room state
+const store = {}
 
 if (DEV) {
     app.use(bundler.middleware())
@@ -23,6 +25,12 @@ const io = require('socket.io')(server)
 io.on('connection', socket => {
     const { name } = socket.handshake.query
     console.info(name + ' connected')
+    if(!store[socket.id]) {
+        store[socket.id] = {
+            name
+        }
+        io.emit('update_room', { members: store })
+    }
 
     socket.broadcast.send({ body: `${name} has joined`, from: 'Server', id: uuid() })
 
@@ -32,6 +40,8 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.info(name + ' disconnected')
+        delete store[socket.id]
+        io.emit('update_room', { members: store })
         socket.broadcast.send({ body: `${name} has left`, from: 'Server', id: uuid() })
     });
 })

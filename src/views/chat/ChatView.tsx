@@ -1,14 +1,8 @@
 import React from 'react'
-
-import ChatWrapper from './ChatWrapper'
-
 import io from 'socket.io-client';
 
-type Message = {
-    id: string,
-    body: string,
-    from: string
-}
+import { ChatWrapper, ChatRoster } from './ChatComponents'
+import { Message, Room } from './types'
 
 type ChatViewProps = {
     name: string,
@@ -17,12 +11,16 @@ type ChatViewProps = {
 type ChatViewState = {
     message: string,
     messages: Message[],
+    room: Room
 }
 
 export default class ChatView extends React.Component<ChatViewProps, ChatViewState> {
     state = {
         message: '',
-        messages: []
+        messages: [],
+        room: {
+            members: {}
+        }
     }
 
     socket: (typeof io.Socket)
@@ -31,6 +29,9 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
         this.socket = io(process.env.SOCKET_URI, { query: { name: this.props.name } })
         this.socket.on('message', (message: Message) => {
             this.setState({ messages: this.state.messages.concat(message) })
+        })
+        this.socket.on('update_room', (room: Room) => {
+            this.setState({ room })
         })
     }
 
@@ -49,6 +50,13 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
     render() {
         return (
             <ChatWrapper>
+                <ChatRoster>
+                    <h3>Users online: </h3>
+                    {Object.keys(this.state.room.members).map(id => 
+                        <span className='username'>{this.state.room.members[id].name}</span>
+                    )}
+                </ChatRoster>
+                <hr />
                 <ul id="messages">
                     {this.state.messages.map((message: Message) =>
                         <li key={message.id}><b>{message.from}: </b> {message.body}</li>

@@ -1,6 +1,6 @@
 import styled from 'react-emotion'
 
-const ChatWrapper = styled('div')`
+export const ChatWrapper = styled('div')`
     form {
         background: grey;
         padding: 10px;
@@ -38,4 +38,14 @@ const ChatWrapper = styled('div')`
     }
 `
 
-export default ChatWrapper
+export const ChatRoster = styled('div')`
+    padding: 0.5rem;
+
+    h3 {
+        padding-bottom: 0.5rem;
+    }
+    
+    .username:not(:last-child):after {
+        content: ', ';
+    }
+`
