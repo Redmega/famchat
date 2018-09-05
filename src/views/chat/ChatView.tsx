@@ -1,4 +1,5 @@
 import React from 'react'
+import FlipMove from 'react-flip-move';
 import io from 'socket.io-client';
 
 import { ChatWrapper, ChatRoster } from './ChatComponents'
@@ -53,6 +54,7 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
             this.setState({ message: '' })
         }
     }
+    
     render() {
         const { room, message, messages } = this.state
         return (
@@ -66,11 +68,13 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
                 </ChatRoster>
 
                 <ul id="messages" ref={element => this.messageBox = element}>
-                    {messages.map((m: Message) =>
-                        <li key={m.id} data-meta={m.meta}>
-                            {!m.meta && <b>{m.from}: </b>} {m.body}
-                        </li>
-                    )}
+                    <FlipMove enterAnimation='accordionVertical'>
+                        {messages.map((m: Message) =>
+                            <li key={m.id} data-meta={m.meta}>
+                                {!m.meta && <b>{m.from}: </b>} {m.body}
+                            </li>
+                        )}
+                    </FlipMove>
                 </ul>
 
                 <form onSubmit={this.handleSubmit}>

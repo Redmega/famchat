@@ -30,7 +30,7 @@ export const ChatWrapper = styled('div')`
     }
 
     #messages {
-        flex: 1 1 auto;
+        flex: 1 1 80%;
         list-style-type: none;
         margin: 0;
         padding: 0;
@@ -44,10 +44,6 @@ export const ChatWrapper = styled('div')`
     #messages li[data-meta] {
         font-style: italic;
     }
-
-    #messages li:nth-child(odd) {
-        background: #eee;
-    }
 `
 
 export const ChatRoster = styled('div')`
@@ -57,7 +53,7 @@ export const ChatRoster = styled('div')`
         padding-bottom: 0.5rem;
     }
     
-    .username:not(:last-child):after {
+    .username:not(:last-of-type):after {
         content: ', ';
     }
 
