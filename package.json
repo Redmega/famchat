@@ -39,6 +39,6 @@
     "start:prod": "npm run build && node server"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=8"
   }
 }
