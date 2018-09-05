@@ -1,10 +1,15 @@
 import styled from 'react-emotion'
 
 export const ChatWrapper = styled('div')`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
     form {
         background: grey;
         padding: 10px;
-        position: fixed;
+        display: flex;
+        flex: 0 1 auto;
         bottom: 0;
         width: 100%;
     }
@@ -12,21 +17,24 @@ export const ChatWrapper = styled('div')`
     form input {
         border: 0;
         padding: 10px;
-        width: 90%;
-        margin-right: .5%;
+        display: flex;
+        flex: 1 0 auto;
     }
 
     form button {
-        width: 9%;
+        display: flex:
+        flex: 0 1 auto;
         background: rgb(130, 224, 255);
         border: none;
         padding: 10px;
     }
 
     #messages {
+        flex: 1 1 auto;
         list-style-type: none;
         margin: 0;
         padding: 0;
+        overflow-y: auto;
     }
 
     #messages li {
@@ -43,7 +51,7 @@ export const ChatWrapper = styled('div')`
 `
 
 export const ChatRoster = styled('div')`
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0 0.5rem;
 
     h3 {
         padding-bottom: 0.5rem;
@@ -51,5 +59,9 @@ export const ChatRoster = styled('div')`
     
     .username:not(:last-child):after {
         content: ', ';
+    }
+
+    hr {
+        margin-top: 0.25rem;
     }
 `

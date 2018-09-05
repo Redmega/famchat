@@ -4,6 +4,9 @@ import styled from 'react-emotion'
 
 import ChatView from './views/chat'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+
 type AppState = {
     name: string,
     chatEntered: boolean,
@@ -53,12 +56,20 @@ class App extends React.Component<{}, AppState> {
             : (
                 <AppWrapper>
                     <form onSubmit={this.handleJoin}>
-                        <input id='name' placeholder='Name' onChange={this.setName} autoComplete='username' />
+                        <input 
+                            autoFocus id='name' 
+                            placeholder='Name' 
+                            onChange={this.setName}
+                            autoComplete='username' 
+                        />
                         <button id='join'>Enter Chat</button>
                     </form>
                 </AppWrapper>
             )
     }
 }
+
+// Initialize font awesome library with selected fonts
+library.add(faPaperPlane)
 
 ReactDOM.render(<App />, document.getElementById('root'))

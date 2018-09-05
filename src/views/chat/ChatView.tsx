@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 import { ChatWrapper, ChatRoster } from './ChatComponents'
 import { Message, Room } from './types'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 type ChatViewProps = {
     name: string,
 }
@@ -24,11 +26,13 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
     }
 
     socket: (typeof io.Socket)
+    messageBox: HTMLUListElement
 
     componentWillMount() {
         this.socket = io(process.env.SOCKET_URI, { query: { name: this.props.name } })
         this.socket.on('message', (message: Message) => {
             this.setState({ messages: this.state.messages.concat(message) })
+            this.messageBox.scrollTop = this.messageBox.scrollHeight
         })
         this.socket.on('update_room', (room: Room) => {
             this.setState({ room })
@@ -42,32 +46,36 @@ export default class ChatView extends React.Component<ChatViewProps, ChatViewSta
     handleMessageChange = ({ target: { value } }) => this.setState({ message: value })
 
     handleSubmit = (event) => {
+        const { message = '' } = this.state
         event.preventDefault()
-        console.log('sending', this.state.message)
-        this.socket.send(this.state.message)
-        this.setState({ message: '' })
+        if(message.trim()) {
+            this.socket.send(message)
+            this.setState({ message: '' })
+        }
     }
     render() {
+        const { room, message, messages } = this.state
         return (
             <ChatWrapper>
                 <ChatRoster>
                     <h3>Users online: </h3>
-                    {Object.keys(this.state.room.members).map(id => 
-                        <span className='username'>{this.state.room.members[id].name}</span>
+                    {Object.keys(room.members).map(id => 
+                        <span className='username'>{room.members[id].name}</span>
                     )}
+                    <hr />
                 </ChatRoster>
-                <hr />
-                <ul id="messages">
-                    {this.state.messages.map((message: Message) =>
-                        <li key={message.id} data-meta={message.meta}>
-                            {!message.meta && <b>{message.from}: </b>} {message.body}
+
+                <ul id="messages" ref={element => this.messageBox = element}>
+                    {messages.map((m: Message) =>
+                        <li key={m.id} data-meta={m.meta}>
+                            {!m.meta && <b>{m.from}: </b>} {m.body}
                         </li>
                     )}
                 </ul>
 
                 <form onSubmit={this.handleSubmit}>
-                    <input autoFocus onChange={this.handleMessageChange} value={this.state.message} autoComplete="off" />
-                    <button>Send</button>
+                    <input autoFocus onChange={this.handleMessageChange} value={message} autoComplete="off" />
+                    <button><FontAwesomeIcon icon='paper-plane' /></button>
                 </form>
             </ChatWrapper>
         )
